@@ -1,7 +1,15 @@
+using Evidelephant.WebAPI.Database;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Configuration.AddJsonFile("credentials.json", false, true);
+builder.Services.AddDbContextPool<EvidelephantContext>(o =>
+{
+    o.UseNpgsql(builder.Configuration["ConnectionStrings:PqSql"]);
+});
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
